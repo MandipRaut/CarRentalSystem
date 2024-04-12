@@ -1,31 +1,47 @@
 <?php
+// Check if the signup form is submitted
 if(isset($_POST['signup']))
 {
-$fname=$_POST['fullname'];
-$email=$_POST['emailid']; 
-$mobile=$_POST['mobileno'];
-$password=$_POST['password']; 
-$license=$_POST['licenseno'];
-$sql="INSERT INTO users(FullName,EmailId,ContactNo,LicenseNo,Password) VALUES(:fname,:email,:mobile,:license,:password)";
-$query = $dbh->prepare($sql);
-$query->bindParam(':fname',$fname,PDO::PARAM_STR);
-$query->bindParam(':email',$email,PDO::PARAM_STR);
-$query->bindParam(':mobile',$mobile,PDO::PARAM_STR);
-$query->bindParam(':license',$license,PDO::PARAM_STR);
-$query->bindParam(':password',$password,PDO::PARAM_STR);
-$query->execute();
-$lastInsertId = $dbh->lastInsertId();
-if($lastInsertId)
-{
-echo "<script>alert('Registration successfull. Now you can login');</script>";
+    // Assigning form input values to variables
+    $fname=$_POST['fullname']; // Storing full name
+    $email=$_POST['emailid']; // Storing email
+    $mobile=$_POST['mobileno']; // Storing mobile number
+    $password=$_POST['password']; // Storing password
+    $license=$_POST['licenseno']; // Storing license number
+    
+    // SQL query to insert user data into the database
+    $sql="INSERT INTO users(FullName,EmailId,ContactNo,LicenseNo,Password) VALUES(:fname,:email,:mobile,:license,:password)";
+    
+    // Preparing the SQL query
+    $query = $dbh->prepare($sql);
+    
+    // Binding parameters to the SQL query
+    $query->bindParam(':fname',$fname,PDO::PARAM_STR);
+    $query->bindParam(':email',$email,PDO::PARAM_STR);
+    $query->bindParam(':mobile',$mobile,PDO::PARAM_STR);
+    $query->bindParam(':license',$license,PDO::PARAM_STR);
+    $query->bindParam(':password',$password,PDO::PARAM_STR);
+    
+    // Executing the SQL query
+    $query->execute();
+    
+    // Getting the last inserted ID
+    $lastInsertId = $dbh->lastInsertId();
+    
+    // Checking if registration was successful
+    if($lastInsertId)
+    {
+        // Alerting the user about successful registration
+        echo "<script>alert('Registration successfull. Now you can login');</script>";
+    }
+    else 
+    {
+        // Alerting the user if something went wrong during registration
+        echo "<script>alert('Something went wrong. Please try again');</script>";
+    }
 }
-else 
-{
-echo "<script>alert('Something went wrong. Please try again');</script>";
-}
-}
-
 ?>
+
 
 
 <script>
