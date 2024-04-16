@@ -1,25 +1,37 @@
 <?php
+// Check if the login form is submitted
 if(isset($_POST['login']))
 {
-$email=$_POST['email'];
-$password=$_POST['password'];
-$sql ="SELECT EmailId,Password,FullName FROM users WHERE EmailId=:email and Password=:password";
-$query= $dbh -> prepare($sql);
-$query-> bindParam(':email', $email, PDO::PARAM_STR);
-$query-> bindParam(':password', $password, PDO::PARAM_STR);
-$query-> execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-if($query->rowCount() > 0)
-{
-$_SESSION['login']=$_POST['email'];
-$_SESSION['fname']=$results->FullName;
-$currentpage=$_SERVER['REQUEST_URI'];
-echo "<script type='text/javascript'> document.location = '$currentpage'; </script>";
-} else{  
-  echo "<script>alert('Invalid Details');</script>";
-}
+    // Retrieve email and password from the form
+    $email=$_POST['email'];
+    $password=$_POST['password'];    
+    // SQL query to select user details based on email and password
+    $sql ="SELECT EmailId,Password,FullName FROM users WHERE EmailId=:email and Password=:password";    
+    // Prepare the SQL query
+    $query= $dbh -> prepare($sql);    
+    // Bind parameters to prevent SQL injection
+    $query-> bindParam(':email', $email, PDO::PARAM_STR);
+    $query-> bindParam(':password', $password, PDO::PARAM_STR);    
+    // Execute the query
+    $query-> execute();    
+    // Fetch the results
+    $results=$query->fetchAll(PDO::FETCH_OBJ);    
+    // Check if any row is returned
+    if($query->rowCount() > 0)
+    {       // Start session and set session variables
+        $_SESSION['login']=$_POST['email'];
+        $_SESSION['fname']=$results->FullName;        
+        // Redirect user to the current page
+        $currentpage=$_SERVER['REQUEST_URI'];
+        echo "<script type='text/javascript'> document.location = '$currentpage'; </script>";
+    } 
+    else
+    {          // Display alert for invalid login details
+        echo "<script>alert('Invalid Details');</script>";
+    }
 }
 ?>
+
 <div class="modal fade" id="loginform">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
