@@ -12,6 +12,7 @@ if(isset($_POST['update'])) {
     $query->execute();
     $results = $query->fetchAll(PDO::FETCH_OBJ);
     if($query->rowCount() > 0) {
+      
         // Update password if email and mobile exist
         $con="UPDATE users SET Password=:newpassword WHERE EmailId=:email AND ContactNo=:mobile";
         $chngpwd1 = $dbh->prepare($con);
