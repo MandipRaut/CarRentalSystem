@@ -1,3 +1,42 @@
+<?php
+session_start();
+error_reporting(0);
+include('includes/config.php');
+if(strlen($_SESSION['alogin'])==0)
+	{	
+header('location:index.php');
+}
+else{
+if(isset($_REQUEST['eid']))
+	{
+$eid=intval($_GET['eid']);
+$status="2";
+$sql = "UPDATE booking SET Status=:status WHERE  id=:eid";
+$query = $dbh->prepare($sql);
+$query -> bindParam(':status',$status, PDO::PARAM_STR);
+$query-> bindParam(':eid',$eid, PDO::PARAM_STR);
+$query -> execute();
+
+$msg="Booking Successfully Cancelled";
+}
+
+
+if(isset($_REQUEST['aeid']))
+	{
+$aeid=intval($_GET['aeid']);
+$status=1;
+
+$sql = "UPDATE booking SET Status=:status WHERE  id=:aeid";
+$query = $dbh->prepare($sql);
+$query -> bindParam(':status',$status, PDO::PARAM_STR);
+$query-> bindParam(':aeid',$aeid, PDO::PARAM_STR);
+$query -> execute();
+
+$msg="Booking Successfully Confirmed";
+}
+
+
+ ?>
 <!doctype html>
 <html lang="en" class="no-js">
 
@@ -65,6 +104,8 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">Bookings Info</div>
 							<div class="panel-body">
+								<?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
+				else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
 								<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 									<thead>
 										<tr>
@@ -93,20 +134,40 @@
 										</tr>
 									</tfoot>
 									<tbody>
+
+									<?php $sql = "SELECT users.FullName,brands.BrandName,vehicles.VehiclesTitle,booking.FromDate,booking.ToDate,booking.message,booking.VehicleId as vid,booking.Status,booking.PostingDate,booking.id  from booking join vehicles on vehicles.id=booking.VehicleId join users on users.EmailId=booking.userEmail join brands on vehicles.VehiclesBrand=brands.id  ";
+$query = $dbh -> prepare($sql);
+$query->execute();
+$results=$query->fetchAll(PDO::FETCH_OBJ);
+$cnt=1;
+if($query->rowCount() > 0)
+{
+foreach($results as $result)
+{				?>	
 										<tr>
-											<td></td>
-											<td></td>
-											<td><a href="edit-vehicle.php?id="></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-										<td><a href="manage-bookings.php?aeid=" onclick="return confirm('Do you really want to Confirm this booking')"> Confirm</a> /
-                                        <a href="manage-bookings.php?eid=" onclick="return confirm('Do you really want to Cancel this Booking')"> Cancel</a>
-                                        </td>
+											<td><?php echo htmlentities($cnt);?></td>
+											<td><?php echo htmlentities($result->FullName);?></td>
+											<td><a href="editVehicle.php?id=<?php echo htmlentities($result->vid);?>"><?php echo htmlentities($result->BrandName);?> , <?php echo htmlentities($result->VehiclesTitle);?></td>
+											<td><?php echo htmlentities($result->FromDate);?></td>
+											<td><?php echo htmlentities($result->ToDate);?></td>
+											<td><?php echo htmlentities($result->message);?></td>
+											<td><?php 
+if($result->Status==0)
+{
+echo htmlentities('Not Confirmed yet');
+} else if ($result->Status==1) {
+echo htmlentities('Confirmed');
+}
+ else{
+ 	echo htmlentities('Cancelled');
+ }
+										?></td>
+											<td><?php echo htmlentities($result->PostingDate);?></td>
+										<td><a href="managebooking.php?aeid=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to Confirm this booking')"> Confirm</a>
+										<a href="managebooking.php?eid=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to Cancel this Booking')"> Cancel</a>
+</td>
 										</tr>
-										
+										<?php $cnt=$cnt+1; }} ?>
 										
 									</tbody>
 								</table>
@@ -131,3 +192,4 @@
 </body>
 </html>
 
+<?php } ?>
