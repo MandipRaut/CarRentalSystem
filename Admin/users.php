@@ -1,3 +1,14 @@
+<?php
+session_start();
+error_reporting(0);
+include('includes/config.php');
+if(strlen($_SESSION['alogin'])==0)
+	{	
+header('location:index.php');
+}
+else{
+?>
+
 <!doctype html>
 <html lang="en" class="no-js">
 
@@ -9,7 +20,7 @@
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>Car Rental Portal |Admin Manage testimonials   </title>
+	<title>User Panel</title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -63,6 +74,8 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">Reg Users</div>
 							<div class="panel-body">
+							<?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
+				else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
 								<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 									<thead>
 										<tr>
@@ -97,20 +110,29 @@
 										</tr>
 									</tfoot>
 									<tbody>
+									<?php $sql = "SELECT * from  users ";
+						$query = $dbh -> prepare($sql);
+						$query->execute();
+						$results=$query->fetchAll(PDO::FETCH_OBJ);
+						$cnt=1;
+						if($query->rowCount() > 0)
+						{
+						foreach($results as $result)
+						{				?>	
 										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
+											<td><?php echo htmlentities($cnt);?></td>
+											<td><?php echo htmlentities($result->FullName);?></td>
+											<td><?php echo htmlentities($result->EmailId);?></td>
+											<td><?php echo htmlentities($result->ContactNo);?></td>
+											<td><?php echo htmlentities($result->LicenseNo);?></td>
 
-	                                        <td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
+	                                        <td><?php echo htmlentities($result->dob);?></td>
+											<td><?php echo htmlentities($result->Address);?></td>
+											<td><?php echo htmlentities($result->City);?></td>
+											<td><?php echo htmlentities($result->Country);?></td>
+											<td><?php echo htmlentities($result->RegDate);?></td>
 										</tr>
-										
+										<?php $cnt=$cnt+1; }} ?>
 									</tbody>
 								</table>
 
@@ -141,3 +163,4 @@
 </body>
 </html>
 
+<?php } ?>
