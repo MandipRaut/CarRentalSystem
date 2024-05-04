@@ -1,13 +1,4 @@
-<?php
-session_start();
-error_reporting(0);
-include('config.php');
-if(strlen($_SESSION['login'])==0)
-  {
-header('location:index.php');
-}
-else{
-?><!DOCTYPE HTML>
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -15,7 +6,7 @@ else{
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="keywords" content="">
 <meta name="description" content="">
-<title>CarForYou - Responsive Car Dealer HTML5 Template</title>
+<title>My Booking</title>
 <!--Bootstrap -->
 <link rel="stylesheet" href="assets/css/bootstrap.min.css" type="text/css">
 <!--Custome Style -->
@@ -30,7 +21,7 @@ else{
 <!--FontAwesome Font Style -->
 <link href="assets/css/font-awesome.min.css" rel="stylesheet">
 
-<!-- SWITCHER -->
+
 		<link rel="stylesheet" id="switcher-css" type="text/css" href="assets/switcher/css/switcher.css" media="all" />
 		<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/red.css" title="red" media="all" data-default-color="true" />
 		<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/orange.css" title="orange" media="all" />
@@ -47,12 +38,7 @@ else{
 <link rel="shortcut icon" href="assets/images/favicon-icon/favicon.png">
 <!-- Google-Font-->
 <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900" rel="stylesheet">
-<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-<!--[if lt IE 9]>
-        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
+
 </head>
 <body>
 
@@ -79,18 +65,7 @@ else{
 </section>
 <!-- /Page Header-->
 
-<?php
-$useremail=$_SESSION['login'];
-$sql = "SELECT * from users where EmailId=:useremail";
-$query = $dbh -> prepare($sql);
-$query -> bindParam(':useremail',$useremail, PDO::PARAM_STR);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-$cnt=1;
-if($query->rowCount() > 0)
-{
-foreach($results as $result)
-{ ?>
+
 <section class="user_profile inner_pages">
   <div class="container">
     <div class="user_profile_info gray-bg padding_4x4_40">
@@ -98,9 +73,9 @@ foreach($results as $result)
       </div>
 
       <div class="dealer_info">
-        <h5><?php echo htmlentities($result->FullName);?></h5>
-        <p><?php echo htmlentities($result->Address);?><br>
-          <?php echo htmlentities($result->City);?>&nbsp;<?php echo htmlentities($result->Country); }}?></p>
+        <h5></h5>
+        <p><br>
+          </p>
       </div>
     </div>
     <div class="row">
@@ -112,46 +87,34 @@ foreach($results as $result)
           <h5 class="uppercase underline">My Bookings </h5>
           <div class="my_vehicles_list">
             <ul class="vehicle_listing">
-<?php
-$useremail=$_SESSION['login'];
- $sql = "SELECT vehicles.Vimage1 as Vimage1,vehicles.VehiclesTitle,vehicles.id as vid,brands.BrandName,booking.FromDate,booking.ToDate,booking.message,booking.Status from booking join vehicles on booking.VehicleId=vehicles.id join brands on brands.id=vehicles.VehiclesBrand where booking.userEmail=:useremail";
-$query = $dbh -> prepare($sql);
-$query-> bindParam(':useremail', $useremail, PDO::PARAM_STR);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-$cnt=1;
-if($query->rowCount() > 0)
-{
-foreach($results as $result)
-{  ?>
+
 
 <li>
-                <div class="vehicle_img"> <a href="vehical-details.php?vhid=<?php echo htmlentities($result->vid);?>"><img src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage1);?>" alt="image"></a> </div>
+                <div class="vehicle_img"> <a href="vehical-details.php?vhid="><img src="admin/img/vehicleimages/" alt="image"></a> </div>
                 <div class="vehicle_title">
-                  <h6><a href="vehical-details.php?vhid=<?php echo htmlentities($result->vid);?>"> <?php echo htmlentities($result->BrandName);?> , <?php echo htmlentities($result->VehiclesTitle);?></a></h6>
-                  <p><b>From Date:</b> <?php echo htmlentities($result->FromDate);?><br /> <b>To Date:</b> <?php echo htmlentities($result->ToDate);?></p>
+                  <h6><a href="vehical-details.php?vhid="> , </a></h6>
+                  <p><b>From Date:</b> <br /> <b>To Date:</b> </p>
                 </div>
-                <?php if($result->Status==1)
-                { ?>
+                
                 <div class="vehicle_status"> <a href="#" class="btn outline btn-xs active-btn">Confirmed</a>
                            <div class="clearfix"></div>
         </div>
 
-              <?php } else if($result->Status==2) { ?>
+             
  <div class="vehicle_status"> <a href="#" class="btn outline btn-xs">Cancelled</a>
             <div class="clearfix"></div>
         </div>
 
 
 
-                <?php } else { ?>
+                
  <div class="vehicle_status"> <a href="#" class="btn outline btn-xs">Not Confirm yet</a>
             <div class="clearfix"></div>
         </div>
-                <?php } ?>
-       <div style="float: left"><p><b>Message:</b> <?php echo htmlentities($result->message);?> </p></div>
+                
+       <div style="float: left"><p><b>Message:</b> </p></div>
               </li>
-              <?php }} ?>
+            
 
 
             </ul>
