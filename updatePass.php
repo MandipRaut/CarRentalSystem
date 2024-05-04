@@ -115,11 +115,8 @@ return true;
     <div class="page-header_wrap">
       <div class="page-heading">
         <h1>Update Password</h1>
+	<a href="#">Home</a> -> Update Password
       </div>
-      <ul class="coustom-breadcrumb">
-        <li><a href="#">Home</a></li>
-        <li>Update Password</li>
-      </ul>
     </div>
   </div>
   <!-- Dark Overlay-->
