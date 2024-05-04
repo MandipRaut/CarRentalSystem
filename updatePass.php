@@ -1,40 +1,4 @@
-
-<?php
-session_start();
-error_reporting(0);
-include('config.php');
-if(strlen($_SESSION['login'])==0)
-  { 
-header('location:index.php');
-}
-else{
-if(isset($_POST['update']))
-  {
-$password=($_POST['password']);
-$newpassword=($_POST['newpassword']);
-$email=$_SESSION['login'];
-  $sql ="SELECT Password FROM users WHERE EmailId=:email and Password=:password";
-$query= $dbh -> prepare($sql);
-$query-> bindParam(':email', $email, PDO::PARAM_STR);
-$query-> bindParam(':password', $password, PDO::PARAM_STR);
-$query-> execute();
-$results = $query -> fetchAll(PDO::FETCH_OBJ);
-if($query -> rowCount() > 0)
-{
-$con="update users set Password=:newpassword where EmailId=:email";
-$chngpwd1 = $dbh->prepare($con);
-$chngpwd1-> bindParam(':email', $email, PDO::PARAM_STR);
-$chngpwd1-> bindParam(':newpassword', $newpassword, PDO::PARAM_STR);
-$chngpwd1->execute();
-$msg="Your Password succesfully changed";
-}
-else {
-$error="Your current password is wrong";  
-}
-}
-
-?>
-  <!DOCTYPE HTML>
+<!DOCTYPE HTML>
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -128,16 +92,7 @@ return true;
 </section>
 <!-- /Page Header--> 
 
-<?php 
-$useremail=$_SESSION['login'];
-$sql = "SELECT * from users where EmailId=:useremail";
-$query = $dbh -> prepare($sql);
-$query -> bindParam(':useremail',$useremail, PDO::PARAM_STR);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-$cnt=1;
-if($query->rowCount() > 0)
-?>
+
 <section class="user_profile inner_pages">
     <div class="row">
       <div class="col-md-3 col-sm-3">
@@ -149,8 +104,7 @@ if($query->rowCount() > 0)
             <div class="gray-bg field-title">
               <h6>Update password</h6>
             </div>
-             <?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
-        else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
+             
             <div class="form-group">
               <label class="control-label">Current Password</label>
               <input class="form-control white_bg" id="password" name="password"  type="password" required>
