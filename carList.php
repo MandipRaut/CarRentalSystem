@@ -27,8 +27,6 @@ error_reporting(0);
   <link href="assets/css/bootstrap-slider.min.css" rel="stylesheet">
   <!--FontAwesome Font Style -->
   <link href="assets/css/font-awesome.min.css" rel="stylesheet">
-
-  <!-- SWITCHER -->
   <link rel="stylesheet" id="switcher-css" type="text/css" href="assets/switcher/css/switcher.css" media="all" />
   <link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/red.css" title="red" media="all"
     data-default-color="true" />
@@ -101,7 +99,7 @@ error_reporting(0);
               <script> console.log(<?php $result ?>)</script>
               <div class="product-listing-m gray-bg">
                 <div class="product-listing-img"><img
-                    src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage1); ?>" class="img-responsive"
+                    src="assets/images/<?php echo htmlentities($result->Vimage1); ?>" class="img-responsive"
                     alt="Image" /> </a>
                 </div>
                 <div class="product-listing-content">
@@ -136,6 +134,19 @@ error_reporting(0);
                   <select class="form-control" name="brand">
                     <option>Select Brand</option>
 
+                    <?php $sql = "SELECT * from brands ";
+                    $query = $dbh->prepare($sql);
+                    $query->execute();
+                    $results = $query->fetchAll(PDO::FETCH_OBJ);
+                    $cnt = 1;
+                    if ($query->rowCount() > 0) {
+                      foreach ($results as $result) { ?>
+                        <option value="<?php echo htmlentities($result->id); ?>">
+                          <?php echo htmlentities($result->BrandName); ?>
+                        </option>
+                      <?php }
+                    } ?>
+
                   </select>
                 </div>
                 <div class="form-group select">
@@ -161,6 +172,27 @@ error_reporting(0);
             </div>
             <div class="recent_addedcars">
               <ul>
+                <?php $sql = "SELECT vehicles.*,brands.BrandName,brands.id as bid from vehicles join brands on brands.id=vehicles.VehiclesBrand order by id desc limit 4";
+                $query = $dbh->prepare($sql);
+                $query->execute();
+                $results = $query->fetchAll(PDO::FETCH_OBJ);
+                $cnt = 1;
+                if ($query->rowCount() > 0) {
+                  foreach ($results as $result) { ?>
+
+                    <li class="gray-bg">
+                      <div class="recent_post_img"> <a
+                          href="vehDetails.php?vhid=<?php echo htmlentities($result->id); ?>"><img
+                            src="assets/images/<?php echo htmlentities($result->Vimage1); ?>" alt="image"></a>
+                      </div>
+                      <div class="recent_post_title"> <a
+                          href="vehDetails.php?vhid=<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->BrandName); ?>
+                          , <?php echo htmlentities($result->VehiclesTitle); ?></a>
+                        <p class="widget_price">$<?php echo htmlentities($result->PricePerDay); ?> Per Day</p>
+                      </div>
+                    </li>
+                  <?php }
+                } ?>
 
               </ul>
             </div>
@@ -196,8 +228,7 @@ error_reporting(0);
   <script src="assets/js/jquery.min.js"></script>
   <script src="assets/js/bootstrap.min.js"></script>
   <script src="assets/js/interface.js"></script>
-  <!--Switcher-->
-  <script src="assets/switcher/js/switcher.js"></script>
+  
   <!--bootstrap-slider-JS-->
   <script src="assets/js/bootstrap-slider.min.js"></script>
   <!--Slider-JS-->
