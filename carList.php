@@ -136,19 +136,6 @@ error_reporting(0);
                   <select class="form-control" name="brand">
                     <option>Select Brand</option>
 
-                    <?php $sql = "SELECT * from brands ";
-                    $query = $dbh->prepare($sql);
-                    $query->execute();
-                    $results = $query->fetchAll(PDO::FETCH_OBJ);
-                    $cnt = 1;
-                    if ($query->rowCount() > 0) {
-                      foreach ($results as $result) { ?>
-                        <option value="<?php echo htmlentities($result->id); ?>">
-                          <?php echo htmlentities($result->BrandName); ?>
-                        </option>
-                      <?php }
-                    } ?>
-
                   </select>
                 </div>
                 <div class="form-group select">
@@ -174,27 +161,6 @@ error_reporting(0);
             </div>
             <div class="recent_addedcars">
               <ul>
-                <?php $sql = "SELECT vehicles.*,brands.BrandName,brands.id as bid from vehicles join brands on brands.id=vehicles.VehiclesBrand order by id desc limit 4";
-                $query = $dbh->prepare($sql);
-                $query->execute();
-                $results = $query->fetchAll(PDO::FETCH_OBJ);
-                $cnt = 1;
-                if ($query->rowCount() > 0) {
-                  foreach ($results as $result) { ?>
-
-                    <li class="gray-bg">
-                      <div class="recent_post_img"> <a
-                          href="vehDetails.php?vhid=<?php echo htmlentities($result->id); ?>"><img
-                            src="admin/img/vehicleimages/<?php echo htmlentities($result->Vimage1); ?>" alt="image"></a>
-                      </div>
-                      <div class="recent_post_title"> <a
-                          href="vehDetails.php?vhid=<?php echo htmlentities($result->id); ?>"><?php echo htmlentities($result->BrandName); ?>
-                          , <?php echo htmlentities($result->VehiclesTitle); ?></a>
-                        <p class="widget_price">$<?php echo htmlentities($result->PricePerDay); ?> Per Day</p>
-                      </div>
-                    </li>
-                  <?php }
-                } ?>
 
               </ul>
             </div>
