@@ -1,35 +1,4 @@
-<?php
-session_start();
-error_reporting(0);
-include('config.php');
-if(strlen($_SESSION['login'])==0)
-  { 
-header('location:index.php');
-}
-else{
-if(isset($_POST['updateprofile']))
-  {
-$name=$_POST['fullname'];
-$mobileno=$_POST['mobilenumber'];
-$dob=$_POST['dob'];
-$adress=$_POST['address'];
-$city=$_POST['city'];
-$country=$_POST['country'];
-$email=$_SESSION['login'];
-$sql="update users set FullName=:name,ContactNo=:mobileno,dob=:dob,Address=:adress,City=:city,Country=:country where EmailId=:email";
-$query = $dbh->prepare($sql);
-$query->bindParam(':name',$name,PDO::PARAM_STR);
-$query->bindParam(':mobileno',$mobileno,PDO::PARAM_STR);
-$query->bindParam(':dob',$dob,PDO::PARAM_STR);
-$query->bindParam(':adress',$adress,PDO::PARAM_STR);
-$query->bindParam(':city',$city,PDO::PARAM_STR);
-$query->bindParam(':country',$country,PDO::PARAM_STR);
-$query->bindParam(':email',$email,PDO::PARAM_STR);
-$query->execute();
-$msg="Profile Updated Successfully";
-}
 
-?>
   <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -110,18 +79,7 @@ $msg="Profile Updated Successfully";
 <!-- /Page Header--> 
 
 
-<?php 
-$useremail=$_SESSION['login'];
-$sql = "SELECT * from users where EmailId=:useremail";
-$query = $dbh -> prepare($sql);
-$query -> bindParam(':useremail',$useremail, PDO::PARAM_STR);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-$cnt=1;
-if($query->rowCount() > 0)
-{
-foreach($results as $result)
-{ ?>
+
 <section class="user_profile inner_pages">
   <div class="container">
     <div class="row">
@@ -130,46 +88,45 @@ foreach($results as $result)
       <div class="col-md-6 col-sm-8">
         <div class="profile_wrap">
           <h5 class="uppercase underline">Genral Settings</h5>
-          <?php  
-         if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
+          
           <form  method="post">
            <div class="form-group">
               <label class="control-label">Reg Date -</label>
-             <?php echo htmlentities($result->RegDate);?>
+            
             </div>
              <?php if($result->UpdationDate!=""){?>
             <div class="form-group">
               <label class="control-label">Last Update at  -</label>
-             <?php echo htmlentities($result->UpdationDate);?>
+             
             </div>
             <?php } ?>
             <div class="form-group">
               <label class="control-label">Full Name</label>
-              <input class="form-control white_bg" name="fullname" value="<?php echo htmlentities($result->FullName);?>" id="fullname" type="text"  required>
+              <input class="form-control white_bg" name="fullname" value="" id="fullname" type="text"  required>
             </div>
             <div class="form-group">
               <label class="control-label">Email Address</label>
-              <input class="form-control white_bg" value="<?php echo htmlentities($result->EmailId);?>" name="emailid" id="email" type="email" required readonly>
+              <input class="form-control white_bg" value="" name="emailid" id="email" type="email" required readonly>
             </div>
             <div class="form-group">
               <label class="control-label">Phone Number</label>
-              <input class="form-control white_bg" name="mobilenumber" value="<?php echo htmlentities($result->ContactNo);?>" id="phone-number" type="text" required>
+              <input class="form-control white_bg" name="mobilenumber" value="" id="phone-number" type="text" required>
             </div>
             <div class="form-group">
               <label class="control-label">Date of Birth&nbsp;(dd/mm/yyyy)</label>
-              <input class="form-control white_bg" value="<?php echo htmlentities($result->dob);?>" name="dob" placeholder="dd/mm/yyyy" id="birth-date" type="text" >
+              <input class="form-control white_bg" value="" name="dob" placeholder="dd/mm/yyyy" id="birth-date" type="text" >
             </div>
             <div class="form-group">
               <label class="control-label">Your Address</label>
-              <textarea class="form-control white_bg" name="address" rows="4" ><?php echo htmlentities($result->Address);?></textarea>
+              <textarea class="form-control white_bg" name="address" rows="4" ></textarea>
             </div>
             <div class="form-group">
               <label class="control-label">Country</label>
-              <input class="form-control white_bg"  id="country" name="country" value="<?php echo htmlentities($result->City);?>" type="text">
+              <input class="form-control white_bg"  id="country" name="country" value="" type="text">
             </div>
             <div class="form-group">
               <label class="control-label">City</label>
-              <input class="form-control white_bg" id="city" name="city" value="<?php echo htmlentities($result->City);?>" type="text">
+              <input class="form-control white_bg" id="city" name="city" value="" type="text">
             </div>
             <?php }} ?>
            
@@ -209,8 +166,7 @@ foreach($results as $result)
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script> 
 <script src="assets/js/interface.js"></script> 
-<!--Switcher-->
-<script src="assets/switcher/js/switcher.js"></script>
+
 <!--bootstrap-slider-JS--> 
 <script src="assets/js/bootstrap-slider.min.js"></script> 
 <!--Slider-JS--> 
