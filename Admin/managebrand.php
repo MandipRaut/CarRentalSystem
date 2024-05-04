@@ -1,26 +1,33 @@
 <?php
+// Start the session
 session_start();
+// Suppress error reporting
 error_reporting(0);
+// Include the configuration file
 include('includes/config.php');
-if(strlen($_SESSION['alogin'])==0)
-    {   
-header('location:index.php');
+// Check if the user is logged in, if not, redirect to the login page
+if(strlen($_SESSION['alogin'])==0){   
+    header('location:index.php');
 }
 else{
-if(isset($_GET['del']))
-{
-$id=$_GET['del'];
-$sql = "delete from brands  WHERE id=:id";
-$query = $dbh->prepare($sql);
-$query -> bindParam(':id',$id, PDO::PARAM_STR);
-$query -> execute();
-$msg="Page data updated successfully";
-
+    // Check if the 'del' parameter is set in the URL
+    if(isset($_GET['del']))    {
+        // Get the ID of the record to be deleted
+        $id=$_GET['del'];
+        // SQL query to delete the record with the specified ID
+        $sql = "delete from brands  WHERE id=:id";
+        // Prepare the SQL query
+        $query = $dbh->prepare($sql);
+        // Bind the ID parameter
+        $query -> bindParam(':id',$id, PDO::PARAM_STR);
+        // Execute the query
+        $query -> execute();
+        // Set a success message
+        $msg="Page data updated successfully";
+    }
 }
+?>
 
-
-
- ?>
 
 <!doctype html>
 <html lang="en" class="no-js">
