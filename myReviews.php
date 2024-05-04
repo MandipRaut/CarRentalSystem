@@ -1,14 +1,4 @@
 
-<?php
-session_start();
-error_reporting(0);
-include('config.php');
-if(strlen($_SESSION['login'])==0)
-  { 
-header('location:index.php');
-}
-else{
-?>
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -72,18 +62,7 @@ else{
 </section>
 <!-- /Page Header--> 
 
-<?php 
-$useremail=$_SESSION['login'];
-$sql = "SELECT * from users where EmailId=:useremail";
-$query = $dbh -> prepare($sql);
-$query -> bindParam(':useremail',$useremail, PDO::PARAM_STR);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-$cnt=1;
-if($query->rowCount() > 0)
-{
-foreach($results as $result)
-{ ?>
+
 <section class="user_profile inner_pages">
   <div class="container">
     <div class="user_profile_info gray-bg padding_4x4_40">
@@ -108,31 +87,20 @@ foreach($results as $result)
           <h5 class="uppercase underline">My Testimonials </h5>
           <div class="my_vehicles_list">
             <ul class="vehicle_listing">
-<?php 
-$useremail=$_SESSION['login'];
-$sql = "SELECT * from testimonial where UserEmail=:useremail";
-$query = $dbh -> prepare($sql);
-$query -> bindParam(':useremail',$useremail, PDO::PARAM_STR);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
 
-if($cnt=$query->rowCount() > 0)
-{
-foreach($results as $result)
-{ ?>
 
               <li>
            
                 <div>
-                 <p><?php echo htmlentities($result->Testimonial);?> </p>
-                   <p><b>Posting Date:</b><?php echo htmlentities($result->PostingDate);?> </p>
+                 <p> </p>
+                   <p><b>Posting Date:</b>< </p>
                 </div>
-                <?php if($result->status==1){ ?>
+                
                  <div class="vehicle_status"> <a class="btn outline btn-xs active-btn">Active</a>
 
                   <div class="clearfix"></div>
                   </div>
-                  <?php } else {?>
+                  
                <div class="vehicle_status"> <a href="#" class="btn outline btn-xs">Waiting for approval</a>
                   <div class="clearfix"></div>
                   </div>
