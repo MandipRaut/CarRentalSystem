@@ -1,34 +1,4 @@
-<?php
-session_start();
-error_reporting(0);
-include('config.php');
-if(strlen($_SESSION['login'])==0)
-  { 
-header('location:index.php');
-}
-else{
-if(isset($_POST['submit']))
-  {
-$testimonoial=$_POST['testimonial'];
-$email=$_SESSION['login'];
-$sql="INSERT INTO testimonial(UserEmail,Testimonial) VALUES(:email,:testimonoial)";
-$query = $dbh->prepare($sql);
-$query->bindParam(':testimonoial',$testimonoial,PDO::PARAM_STR);
-$query->bindParam(':email',$email,PDO::PARAM_STR);
 
-$query->execute();
-$lastInsertId = $dbh->lastInsertId();
-if($lastInsertId)
-{
-$msg="Testimonail submitted successfully";
-}
-else 
-{
-$error="Something went wrong. Please try again";
-}
-
-}
-?>
   <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -108,18 +78,7 @@ $error="Something went wrong. Please try again";
 </section>
 <!-- /Page Header--> 
 
-<?php 
-$useremail=$_SESSION['login'];
-$sql = "SELECT * from users where EmailId=:useremail";
-$query = $dbh -> prepare($sql);
-$query -> bindParam(':useremail',$useremail, PDO::PARAM_STR);
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-$cnt=1;
-if($query->rowCount() > 0)
-{
-foreach($results as $result)
-{ ?>
+
 <section class="user_profile inner_pages">
   <div class="container">
     <div class="user_profile_info gray-bg padding_4x4_40">
@@ -127,9 +86,9 @@ foreach($results as $result)
       </div>
 
       <div class="dealer_info">
-        <h5><?php echo htmlentities($result->FullName);?></h5>
-        <p><?php echo htmlentities($result->Address);?><br>
-          <?php echo htmlentities($result->City);?>&nbsp;<?php echo htmlentities($result->Country); }}?></p>
+        <h5></h5>
+        <p><br>
+          </p>
       </div>
     </div>
   
@@ -139,8 +98,7 @@ foreach($results as $result)
       <div class="col-md-6 col-sm-8">
         <div class="profile_wrap">
           <h5 class="uppercase underline">Post a Testimonial</h5>
-            <?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
-        else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
+            
           <form  method="post">
           
           
