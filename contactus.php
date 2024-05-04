@@ -1,32 +1,3 @@
-<?php
-session_start();
-error_reporting(0);
-include('config.php');
-if(isset($_POST['send']))
-  {
-$name=$_POST['fullname'];
-$email=$_POST['email'];
-$contactno=$_POST['contactno'];
-$message=$_POST['message'];
-$sql="INSERT INTO contactusquery(name,EmailId,ContactNumber,Message) VALUES(:name,:email,:contactno,:message)";
-$query = $dbh->prepare($sql);
-$query->bindParam(':name',$name,PDO::PARAM_STR);
-$query->bindParam(':email',$email,PDO::PARAM_STR);
-$query->bindParam(':contactno',$contactno,PDO::PARAM_STR);
-$query->bindParam(':message',$message,PDO::PARAM_STR);
-$query->execute();
-$lastInsertId = $dbh->lastInsertId();
-if($lastInsertId)
-{
-$msg="Query Sent. We will contact you shortly";
-}
-else 
-{
-$error="Something went wrong. Please try again";
-}
-
-}
-?>
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -113,8 +84,7 @@ $error="Something went wrong. Please try again";
     <div  class="row">
       <div class="col-md-6">
         <h3>Get in touch using the form below</h3>
-          <?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
-        else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
+          
         <div class="contact_form gray-bg">
           <form  method="post">
             <div class="form-group">
@@ -143,30 +113,19 @@ $error="Something went wrong. Please try again";
         <h3>Contact Info</h3>
         <div class="contact_detail">
               
-              <?php 
-$pagetype=$_GET['type'];
-$sql = "SELECT Address,EmailId,ContactNo from contactusinfo";
-$query = $dbh -> prepare($sql);
-
-$query->execute();
-$results=$query->fetchAll(PDO::FETCH_OBJ);
-$cnt=1;
-if($query->rowCount() > 0)
-{
-foreach($results as $result)
-{ ?>
+              
           <ul>
             <li>
               <div class="icon_wrap"><i class="fa fa-map-marker" aria-hidden="true"></i></div>
-              <div class="contact_info_m"><?php   echo htmlentities($result->Address); ?></div>
+              <div class="contact_info_m"></div>
             </li>
             <li>
               <div class="icon_wrap"><i class="fa fa-phone" aria-hidden="true"></i></div>
-              <div class="contact_info_m"><a href="tel:61-1234-567-90"><?php   echo htmlentities($result->EmailId); ?></a></div>
+              <div class="contact_info_m"><a href="tel:61-1234-567-90"></a></div>
             </li>
             <li>
               <div class="icon_wrap"><i class="fa fa-envelope-o" aria-hidden="true"></i></div>
-              <div class="contact_info_m"><a href="mailto:contact@exampleurl.com"><?php   echo htmlentities($result->ContactNo); ?></a></div>
+              <div class="contact_info_m"><a href="mailto:contact@exampleurl.com"></a></div>
             </li>
           </ul>
         <?php }} ?>
