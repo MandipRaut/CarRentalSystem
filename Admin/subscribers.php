@@ -1,3 +1,26 @@
+<?php
+session_start();
+error_reporting(0);
+include('includes/config.php');
+if(strlen($_SESSION['alogin'])==0)
+	{	
+header('location:index.php');
+}
+else{
+if(isset($_GET['del']))
+{
+$id=$_GET['del'];
+$sql = "delete from subscribers  WHERE id=:id";
+$query = $dbh->prepare($sql);
+$query -> bindParam(':id',$id, PDO::PARAM_STR);
+$query -> execute();
+$msg="Subscriber info deleted";
+
+}
+
+
+ ?>
+
 <!doctype html>
 <html lang="en" class="no-js">
 
@@ -9,7 +32,7 @@
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>Car Rental Portal |Admin Manage Subscribers   </title>
+	<title>Manage Subscribers</title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -65,6 +88,8 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">Subscribers Details</div>
 							<div class="panel-body">
+							<?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
+				else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
 								<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 									<thead>
 										<tr>
@@ -83,16 +108,30 @@
 										</tr>
 									</tfoot>
 									<tbody>
+
+									<?php $sql = "SELECT * from subscribers";
+$query = $dbh -> prepare($sql);
+$query->execute();
+$results=$query->fetchAll(PDO::FETCH_OBJ);
+$cnt=1;
+if($query->rowCount() > 0)
+{
+foreach($results as $result)
+{				?>	
 										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
+											<td><?php echo htmlentities($cnt);?></td>
+											<td><?php echo htmlentities($result->SubscriberEmail);?></td>
+									
+											<td><?php echo htmlentities($result->PostingDate);?></td>
+
 										<td>
-                                        <a href="subscribers.php?del=>" onclick="return confirm('Do you want to delete');"><i class="fa fa-close"></i></a>
-                                        </td>
+
+
+<a href="subscribers.php?del=<?php echo $result->id;?>" onclick="return confirm('Do you want to delete');"><i class="fa fa-close"></i></a>
+</td>
 
 										</tr>
-
+										<?php $cnt=$cnt+1; }} ?>
 										
 									</tbody>
 								</table>
@@ -123,3 +162,4 @@
 	<script src="js/main.js"></script>
 </body>
 </html>
+<?php } ?>
