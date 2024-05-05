@@ -1,4 +1,13 @@
-<!DOCTYPE HTML>
+<?php
+session_start();
+error_reporting(0);
+include('config.php');
+if(strlen($_SESSION['login'])==0)
+  {
+header('location:index.php');
+}
+else{
+?><!DOCTYPE HTML>
 <html lang="en">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -20,7 +29,6 @@
 <link href="assets/css/bootstrap-slider.min.css" rel="stylesheet">
 <!--FontAwesome Font Style -->
 <link href="assets/css/font-awesome.min.css" rel="stylesheet">
-
 
 		<link rel="stylesheet" id="switcher-css" type="text/css" href="assets/switcher/css/switcher.css" media="all" />
 		<link rel="alternate stylesheet" type="text/css" href="assets/switcher/css/red.css" title="red" media="all" data-default-color="true" />
@@ -53,11 +61,8 @@
     <div class="page-header_wrap">
       <div class="page-heading">
         <h1>My Booking</h1>
+        <a href="#">Home</a> -> My Booking
       </div>
-      <ul class="coustom-breadcrumb">
-        <li><a href="#">Home</a></li>
-        <li>My Booking</li>
-      </ul>
     </div>
   </div>
   <!-- Dark Overlay-->
@@ -65,19 +70,17 @@
 </section>
 <!-- /Page Header-->
 
-
+<?php
+$useremail=$_SESSION['login'];
+$sql = "SELECT * from users where EmailId=:useremail";
+$query = $dbh -> prepare($sql);
+$query -> bindParam(':useremail',$useremail, PDO::PARAM_STR);
+$query->execute();
+$results=$query->fetchAll(PDO::FETCH_OBJ);
+$cnt=1;
+?>
 <section class="user_profile inner_pages">
   <div class="container">
-    <div class="user_profile_info gray-bg padding_4x4_40">
-      <div class="upload_user_logo"> <img src="assets/images/dealer-logo.jpg" alt="image">
-      </div>
-
-      <div class="dealer_info">
-        <h5></h5>
-        <p><br>
-          </p>
-      </div>
-    </div>
     <div class="row">
       <div class="col-md-3 col-sm-3">
        <?php include('sidebar.php');?>
@@ -87,34 +90,46 @@
           <h5 class="uppercase underline">My Bookings </h5>
           <div class="my_vehicles_list">
             <ul class="vehicle_listing">
-
+<?php
+$useremail=$_SESSION['login'];
+ $sql = "SELECT vehicles.Vimage1 as Vimage1,vehicles.VehiclesTitle,vehicles.id as vid,brands.BrandName,booking.FromDate,booking.ToDate,booking.message,booking.Status from booking join vehicles on booking.VehicleId=vehicles.id join brands on brands.id=vehicles.VehiclesBrand where booking.userEmail=:useremail";
+$query = $dbh -> prepare($sql);
+$query-> bindParam(':useremail', $useremail, PDO::PARAM_STR);
+$query->execute();
+$results=$query->fetchAll(PDO::FETCH_OBJ);
+$cnt=1;
+if($query->rowCount() > 0)
+{
+foreach($results as $result)
+{  ?>
 
 <li>
-                <div class="vehicle_img"> <a href="vehical-details.php?vhid="><img src="admin/img/vehicleimages/" alt="image"></a> </div>
+                <div class="vehicle_img"> <a href="vehDetails.php?vhid=<?php echo htmlentities($result->vid);?>"><img src="assets/images/<?php echo htmlentities($result->Vimage1);?>" alt="image"></a> </div>
                 <div class="vehicle_title">
-                  <h6><a href="vehical-details.php?vhid="> , </a></h6>
-                  <p><b>From Date:</b> <br /> <b>To Date:</b> </p>
+                  <h6><a href="vehDetails.php?vhid=<?php echo htmlentities($result->vid);?>"> <?php echo htmlentities($result->BrandName);?> , <?php echo htmlentities($result->VehiclesTitle);?></a></h6>
+                  <p><b>From Date:</b> <?php echo htmlentities($result->FromDate);?><br /> <b>To Date:</b> <?php echo htmlentities($result->ToDate);?></p>
                 </div>
-                
+                <?php if($result->Status==1)
+                { ?>
                 <div class="vehicle_status"> <a href="#" class="btn outline btn-xs active-btn">Confirmed</a>
                            <div class="clearfix"></div>
         </div>
 
-             
+              <?php } else if($result->Status==2) { ?>
  <div class="vehicle_status"> <a href="#" class="btn outline btn-xs">Cancelled</a>
             <div class="clearfix"></div>
         </div>
 
 
 
-                
+                <?php } else { ?>
  <div class="vehicle_status"> <a href="#" class="btn outline btn-xs">Not Confirm yet</a>
             <div class="clearfix"></div>
         </div>
-                
-       <div style="float: left"><p><b>Message:</b> </p></div>
+                <?php } ?>
+       <div style="float: left"><p><b>Message:</b> <?php echo htmlentities($result->message);?> </p></div>
               </li>
-            
+              <?php }} ?>
 
 
             </ul>
@@ -131,8 +146,7 @@
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script>
 <script src="assets/js/interface.js"></script>
-<!--Switcher-->
-<script src="assets/switcher/js/switcher.js"></script>
+
 <!--bootstrap-slider-JS-->
 <script src="assets/js/bootstrap-slider.min.js"></script>
 <!--Slider-JS-->
