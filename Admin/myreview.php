@@ -1,12 +1,14 @@
 <?php
+// Start session
 session_start();
+// Turn off error reporting
 error_reporting(0);
+// Include configuration file
 include('config.php');
-if(strlen($_SESSION['login'])==0)
-  { 
-header('location:index.php');
-}
-else{
+// Check if the user is not logged in, redirect to index.php
+if(strlen($_SESSION['login']) == 0) { 
+    header('location: index.php');
+} else {
 ?>
 <!DOCTYPE HTML>
 <html lang="en">
