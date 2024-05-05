@@ -1,3 +1,27 @@
+<?php
+session_start();
+error_reporting(0);
+include('includes/config.php');
+if(strlen($_SESSION['alogin'])==0)
+	{	
+header('location:index.php');
+}
+else{
+if($_POST['submit']=="Update")
+{
+	$pagetype=$_GET['type'];
+	$pagedetails=$_POST['pgedetails'];
+$sql = "UPDATE pages SET detail=:pagedetails WHERE type=:pagetype";
+$query = $dbh->prepare($sql);
+$query -> bindParam(':pagetype',$pagetype, PDO::PARAM_STR);
+$query-> bindParam(':pagedetails',$pagedetails, PDO::PARAM_STR);
+$query -> execute();
+$msg="Page data updated  successfully";
+
+}
+
+?>
+
 <!doctype html>
 <html lang="en" class="no-js">
 
@@ -9,7 +33,7 @@
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>Car Rental Portal | Admin Create Brand</title>
+	<title>Manage Pages</title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -103,6 +127,10 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 									<div class="panel-heading">Form fields</div>
 									<div class="panel-body">
 										<form method="post" name="chngpwd" class="form-horizontal" onSubmit="return valid();">
+										
+											
+  	        	  <?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
+				else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
 											<div class="form-group">
 												<label class="col-sm-4 control-label">select Page</label>
 												<div class="col-sm-8">
@@ -111,14 +139,37 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
                   <option value="managePage.php?type=terms">terms and condition</option>
                   <option value="managePage.php?type=privacy">privacy and policy</option>
                   <option value="managePage.php?type=aboutus">aboutus</option> 
-                  <option value="managePage.php?type=faqs">FAQs</option>
                 </select>
 												</div>
 											</div>
 											<div class="hr-dashed"></div>
+											
 											<div class="form-group">
 												<label class="col-sm-4 control-label">selected Page</label>
 												<div class="col-sm-8">
+						<?php
+			
+			switch($_GET['type'])
+			{
+				case "terms" :
+									echo "Terms and Conditions";
+									break;
+				
+				case "privacy" :
+									echo "Privacy And Policy";
+									break;
+				
+				case "aboutus" :
+									echo "About US";
+									break;
+											
+				default :
+								echo "";
+								break;
+			
+			}
+			
+			?>
 												</div>
 											</div>
 								
@@ -126,6 +177,22 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 												<label class="col-sm-4 control-label">Page Details </label>
 												<div class="col-sm-8">
 			<textarea class="form-control" rows="5" cols="50" name="pgedetails" id="pgedetails" placeholder="Package Details" required>
+										<?php 
+$pagetype=$_GET['type'];
+$sql = "SELECT detail from pages where type=:pagetype";
+$query = $dbh -> prepare($sql);
+$query->bindParam(':pagetype',$pagetype,PDO::PARAM_STR);
+$query->execute();
+$results=$query->fetchAll(PDO::FETCH_OBJ);
+$cnt=1;
+if($query->rowCount() > 0)
+{
+foreach($results as $result)
+{		
+echo htmlentities($result->detail);
+}}
+?>
+
 										</textarea> 
 												</div>
 											</div>
@@ -169,3 +236,4 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
 </body>
 
 </html>
+<?php } ?>
