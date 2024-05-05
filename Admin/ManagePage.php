@@ -139,7 +139,6 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
                   <option value="managePage.php?type=terms">terms and condition</option>
                   <option value="managePage.php?type=privacy">privacy and policy</option>
                   <option value="managePage.php?type=aboutus">aboutus</option> 
-                  <option value="managePage.php?type=faqs">FAQs</option>
                 </select>
                                                 </div>
                                             </div>
@@ -162,10 +161,6 @@ function MM_jumpMenu(targ,selObj,restore){ //v3.0
                 
                 case "aboutus" :
                                     echo "About US";
-                                    break;
-            
-                case "faqs" :
-                                    echo "FAQs";
                                     break;
                                             
                 default :
