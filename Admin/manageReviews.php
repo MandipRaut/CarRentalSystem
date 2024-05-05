@@ -1,3 +1,43 @@
+<?php
+session_start();
+error_reporting(0);
+include('includes/config.php');
+if(strlen($_SESSION['alogin'])==0)
+	{	
+header('location:index.php');
+}
+else{
+if(isset($_REQUEST['eid']))
+	{
+$eid=intval($_GET['eid']);
+$status="0";
+$sql = "UPDATE testimonial SET status=:status WHERE  id=:eid";
+$query = $dbh->prepare($sql);
+$query -> bindParam(':status',$status, PDO::PARAM_STR);
+$query-> bindParam(':eid',$eid, PDO::PARAM_STR);
+$query -> execute();
+
+$msg="Testimonial Successfully Inacrive";
+}
+
+
+if(isset($_REQUEST['aeid']))
+	{
+$aeid=intval($_GET['aeid']);
+$status=1;
+
+$sql = "UPDATE tbltestimonial SET status=:status WHERE  id=:aeid";
+$query = $dbh->prepare($sql);
+$query -> bindParam(':status',$status, PDO::PARAM_STR);
+$query-> bindParam(':aeid',$aeid, PDO::PARAM_STR);
+$query -> execute();
+
+$msg="Testimonial Successfully Active";
+}
+
+
+ ?>
+
 <!doctype html>
 <html lang="en" class="no-js">
 
@@ -9,7 +49,7 @@
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>Car Rental Portal |Admin Manage testimonials   </title>
+	<title>Manage Reviews</title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -65,6 +105,8 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">User Testimonials</div>
 							<div class="panel-body">
+							<?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
+				else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
 								<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 									<thead>
 										<tr>
@@ -87,14 +129,33 @@
 										</tr>
 									</tfoot>
 									<tbody>
+
+									<?php $sql = "SELECT users.FullName,testimonial.UserEmail,testimonial.Testimonial,testimonial.PostingDate,testimonial.status,testimonial.id from testimonial join users on users.Emailid=testimonial.UserEmail";
+$query = $dbh -> prepare($sql);
+$query->execute();
+$results=$query->fetchAll(PDO::FETCH_OBJ);
+$cnt=1;
+if($query->rowCount() > 0)
+{
+foreach($results as $result)
+{				?>	
 										<tr>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-											<td></td>
-										<td></td>
+											<td><?php echo htmlentities($cnt);?></td>
+											<td><?php echo htmlentities($result->FullName);?></td>
+											<td><?php echo htmlentities($result->UserEmail);?></td>
+											<td><?php echo htmlentities($result->Testimonial);?></td>
+											<td><?php echo htmlentities($result->PostingDate);?></td>
+										<td><?php if($result->status=="" || $result->status==0)
+{
+	?><a href="manageReviews.php?aeid=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to Active')"> Inactive</a>
+<?php } else {?>
+
+<a href="manageReviews.php?eid=<?php echo htmlentities($result->id);?>" onclick="return confirm('Do you really want to Inactive')"> Active</a>
+</td>
+<?php } ?></td>
 										</tr>
+										<?php $cnt=$cnt+1; }} ?>
+										
 									</tbody>
 								</table>
 
@@ -124,3 +185,4 @@
 	<script src="js/main.js"></script>
 </body>
 </html>
+<?php } ?>
