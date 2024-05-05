@@ -1,4 +1,34 @@
+<?php
+session_start();
+error_reporting(0);
+include('config.php');
+if(strlen($_SESSION['login'])==0)
+  { 
+header('location:index.php');
+}
+else{
+if(isset($_POST['submit']))
+  {
+$testimonoial=$_POST['testimonial'];
+$email=$_SESSION['login'];
+$sql="INSERT INTO testimonial(UserEmail,Testimonial) VALUES(:email,:testimonoial)";
+$query = $dbh->prepare($sql);
+$query->bindParam(':testimonoial',$testimonoial,PDO::PARAM_STR);
+$query->bindParam(':email',$email,PDO::PARAM_STR);
 
+$query->execute();
+$lastInsertId = $dbh->lastInsertId();
+if($lastInsertId)
+{
+$msg="Testimonail submitted successfully";
+}
+else 
+{
+$error="Something went wrong. Please try again";
+}
+
+}
+?>
   <!DOCTYPE HTML>
 <html lang="en">
 <head>
@@ -66,11 +96,9 @@
     <div class="page-header_wrap">
       <div class="page-heading">
         <h1>Post Review</h1>
+        <a href="#">Home</a> -> Post Reviews
       </div>
-      <ul class="coustom-breadcrumb">
-        <li><a href="#">Home</a></li>
-        <li>Post Review</li>
-      </ul>
+      
     </div>
   </div>
   <!-- Dark Overlay-->
@@ -78,27 +106,26 @@
 </section>
 <!-- /Page Header--> 
 
-
+<?php 
+$useremail=$_SESSION['login'];
+$sql = "SELECT * from users where EmailId=:useremail";
+$query = $dbh -> prepare($sql);
+$query -> bindParam(':useremail',$useremail, PDO::PARAM_STR);
+$query->execute();
+$results=$query->fetchAll(PDO::FETCH_OBJ);
+$cnt=1;
+?>
 <section class="user_profile inner_pages">
   <div class="container">
-    <div class="user_profile_info gray-bg padding_4x4_40">
-      <div class="upload_user_logo"> <img src="assets/images/dealer-logo.jpg" alt="image">
-      </div>
 
-      <div class="dealer_info">
-        <h5></h5>
-        <p><br>
-          </p>
-      </div>
-    </div>
-  
     <div class="row">
       <div class="col-md-3 col-sm-3">
         <?php include('sidebar.php');?>
       <div class="col-md-6 col-sm-8">
         <div class="profile_wrap">
-          <h5 class="uppercase underline">Post a Testimonial</h5>
-            
+          <h5 class="uppercase underline">Post a Reviews</h5>
+            <?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
+        else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
           <form  method="post">
           
           
@@ -144,8 +171,7 @@
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/bootstrap.min.js"></script> 
 <script src="assets/js/interface.js"></script> 
-<!--Switcher-->
-<script src="assets/switcher/js/switcher.js"></script>
+
 <!--bootstrap-slider-JS--> 
 <script src="assets/js/bootstrap-slider.min.js"></script> 
 <!--Slider-JS--> 
