@@ -3,7 +3,8 @@
     <div class="container">
       <div class="row">
         <div class="col-sm-3 col-md-2">
-          <div class="logo"> <a href="index.php">Vroom Car Rentals</a> </div>
+          <div class="logo"> <a href="index.php"><img src="assets/images/logo.png" alt="image" style="width: 100px;"/></a> </div>
+
         </div>
         <div class="col-sm-9 col-md-10">
           <div class="header_info">
