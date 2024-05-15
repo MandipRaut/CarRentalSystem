@@ -112,7 +112,7 @@ $error="Something went wrong. Please try again";
   <div class="container">
     <div  class="row">
       <div class="col-md-6">
-        <h3>Get in touch using the form below</h3>
+        <h3>Get in touch with us! Please fill up the form below</h3>
           <?php if($error){?><div class="errorWrap"><strong>ERROR</strong>:<?php echo htmlentities($error); ?> </div><?php } 
         else if($msg){?><div class="succWrap"><strong>SUCCESS</strong>:<?php echo htmlentities($msg); ?> </div><?php }?>
         <div class="contact_form gray-bg">
