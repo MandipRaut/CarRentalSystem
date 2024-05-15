@@ -144,6 +144,22 @@ a:hover, a:focus, .btn-link:hover {
 	fill: #ff0012;
 }
 
+.contact_detail ul {
+	padding:0px;
+	margin:0px
+}
+.contact_detail li {
+	list-style:none;
+	color:#555;
+	font-size:16px;
+	line-height:24px;
+	margin:20px 0;
+	padding:0 150px 0 0;
+}
+.contact_detail li a {
+	color:#555;
+}
+
 .btn,
 .nav-tabs > li.active > a,
 .nav-tabs > li.active > a:focus,
@@ -2326,6 +2342,8 @@ body {
     position: absolute;
     vertical-align: middle;
   }
+
+  /* anuragggggg */
   .footer-top ul li a {
     color: #fff;
   }
