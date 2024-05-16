@@ -176,7 +176,7 @@ $query=$query6->rowCount();
 													<div class="stat-panel-title text-uppercase">Queries</div>
 												</div>
 											</div>
-											<a href="updatecontacts.php" class="block-anchor panel-footer text-center">Full Detail &nbsp; <i class="fa fa-arrow-right"></i></a>
+											<a href="manageContact.php" class="block-anchor panel-footer text-center">Full Detail &nbsp; <i class="fa fa-arrow-right"></i></a>
 										</div>
 									</div>
 									<div class="col-md-3">
