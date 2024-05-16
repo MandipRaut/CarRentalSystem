@@ -10,8 +10,8 @@ else{
 
 if(isset($_POST['submit']))
 	{
-$password=md5($_POST['password']);
-$newpassword=md5($_POST['newpassword']);
+$password=$_POST['password'];
+$newpassword=$_POST['newpassword'];
 $username=$_SESSION['alogin'];
 $sql ="SELECT Password FROM admin WHERE UserName=:username and Password=:password";
 $query= $dbh -> prepare($sql);
@@ -45,7 +45,7 @@ $error="Your current password is not valid.";
 	<meta name="author" content="">
 	<meta name="theme-color" content="#3e454c">
 	
-	<title>Change Password</title>
+	<title>Admin Change Password</title>
 
 	<!-- Font awesome -->
 	<link rel="stylesheet" href="css/font-awesome.min.css">
@@ -66,13 +66,25 @@ $error="Your current password is not valid.";
 <script type="text/javascript">
 function valid()
 {
-if(document.chngpwd.newpassword.value!= document.chngpwd.confirmpassword.value)
-{
-alert("New Password and Confirm Password Field do not match  !!");
-document.chngpwd.confirmpassword.focus();
-return false;
-}
-return true;
+	var newPassword = document.chngpwd.newpassword.value;
+    var confirmPassword = document.chngpwd.confirmpassword.value;
+
+    // Check if the new password and confirm password fields match
+    if (newPassword !== confirmPassword) {
+        alert("New Password and Confirm Password fields do not match!");
+        document.chngpwd.confirmpassword.focus();
+        return false;
+    }
+
+    // Check if the new password meets the complexity requirements
+    var passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_+}{"':;?/>.<,])(?=.*[a-zA-Z]).{8,}$/;
+    if (!passwordRegex.test(newPassword)) {
+        alert("Password must contain at least 8 characters, including one uppercase letter, one lowercase letter, one number, and one special character.");
+        document.chngpwd.newpassword.focus();
+        return false;
+    }
+
+    return true;
 }
 </script>
   <style>
