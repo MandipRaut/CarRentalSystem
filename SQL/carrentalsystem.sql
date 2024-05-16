@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Apr 02, 2024 at 12:55 PM
+-- Generation Time: May 16, 2024 at 07:15 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -34,6 +34,13 @@ CREATE TABLE `admin` (
   `updationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id`, `UserName`, `Password`, `updationDate`) VALUES
+(1, 'admin', 'm@Npass1', '2024-05-16 03:48:06');
+
 -- --------------------------------------------------------
 
 --
@@ -51,6 +58,17 @@ CREATE TABLE `booking` (
   `PostingDate` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `booking`
+--
+
+INSERT INTO `booking` (`id`, `userEmail`, `VehicleId`, `FromDate`, `ToDate`, `message`, `Status`, `PostingDate`) VALUES
+(1, 'r@gmail.com', 1, '02/05/2024', '10/05/2024', 'bmkm', 2, '2024-05-01 20:09:43'),
+(2, 'r@gmail.com', 1, '03/05/2024', '07/05/2024', 'jbjb', 0, '2024-05-04 03:54:44'),
+(3, 'r@gmail.com', 1, '03/05/2024', '08/05/2024', 'book', 2, '2024-05-10 03:35:19'),
+(4, 'akhatiwada@gmail.com', 1, '03/05/2024', '07/052024', 'no girl inside car', 1, '2024-05-14 03:50:14'),
+(5, 'r@gmail.com', 1, '03/05/2024', '07/052024', 'lml', 2, '2024-05-14 07:16:33');
+
 -- --------------------------------------------------------
 
 --
@@ -64,6 +82,14 @@ CREATE TABLE `brands` (
   `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `brands`
+--
+
+INSERT INTO `brands` (`id`, `BrandName`, `CreationDate`, `UpdationDate`) VALUES
+(1, 'Toyota', '2024-05-02 10:17:58', NULL),
+(2, 'Tesla', '2024-05-14 14:50:57', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -76,6 +102,13 @@ CREATE TABLE `contactusinfo` (
   `EmailId` varchar(255) DEFAULT NULL,
   `ContactNo` char(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `contactusinfo`
+--
+
+INSERT INTO `contactusinfo` (`id`, `Address`, `EmailId`, `ContactNo`) VALUES
+(1, 'Kapan,Kathmandu', 'vroomrentals@gmail.com', '9844557890');
 
 -- --------------------------------------------------------
 
@@ -93,6 +126,14 @@ CREATE TABLE `contactusquery` (
   `status` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `contactusquery`
+--
+
+INSERT INTO `contactusquery` (`id`, `name`, `EmailId`, `ContactNumber`, `Message`, `PostingDate`, `status`) VALUES
+(1, 'helo', 'helo@gmail.com', '9812123434', 'helo', '2024-05-04 08:33:52', NULL),
+(2, 'Aayush', 'akhatiwada@gmail.com', '9801031828', 'I need a job.', '2024-05-14 03:59:13', 1);
+
 -- --------------------------------------------------------
 
 --
@@ -106,6 +147,15 @@ CREATE TABLE `pages` (
   `detail` longtext NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
+--
+-- Dumping data for table `pages`
+--
+
+INSERT INTO `pages` (`id`, `PageName`, `type`, `detail`) VALUES
+(1, 'About Us', 'aboutus', '										<span style=\"color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">Welcome to Vroom Car Rental, your ultimate destination for convenient and reliable car rentals. At Vroom, we are dedicated to providing seamless transportation solutions for travelers and locals alike. With a diverse fleet of vehicles to suit every need and budget, we prioritize flexibility and affordability. Whether you\'re planning a weekend getaway, a business trip, or simply need a temporary replacement vehicle, Vroom has you covered. Our user-friendly mobile app allows you to browse available vehicles, compare prices, and make reservations on the go. With a commitment to customer satisfaction and excellence, Vroom Car Rental is here to make your rental experience smooth, convenient, and stress-free. Experience the difference with Vroom Car Rental today!</span>\r\n										'),
+(22, 'Terms And Conditions', 'terms', '<P align=justify><FONT size=2><STRONG><FONT color=#990000>(1) ACCEPTANCE OF TERMS</FONT><BR><BR></STRONG>Test</FONT></P>'),
+(23, 'Privacy Policy', 'privacy', '<span style=\"color: rgb(0, 0, 0); font-family: &quot;Open Sans&quot;, Arial, sans-serif; font-size: 14px; text-align: justify;\">Test</span>');
+
 -- --------------------------------------------------------
 
 --
@@ -117,6 +167,14 @@ CREATE TABLE `subscribers` (
   `SubscriberEmail` varchar(120) DEFAULT NULL,
   `PostingDate` timestamp NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `subscribers`
+--
+
+INSERT INTO `subscribers` (`id`, `SubscriberEmail`, `PostingDate`) VALUES
+(2, 'sub@gmail.com', '2024-05-03 14:45:42'),
+(3, 'akhatiwada@gmail.com', '2024-05-14 03:49:39');
 
 -- --------------------------------------------------------
 
@@ -131,6 +189,16 @@ CREATE TABLE `testimonial` (
   `PostingDate` timestamp NOT NULL DEFAULT current_timestamp(),
   `status` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `testimonial`
+--
+
+INSERT INTO `testimonial` (`id`, `UserEmail`, `Testimonial`, `PostingDate`, `status`) VALUES
+(1, 'r@gmail.com', 'this is a test review.', '2024-05-03 09:45:13', 0),
+(2, 'lunapara09@gmail.com', 'test review-2', '2024-05-04 08:42:37', 1),
+(3, 'ridima@gmail.com', 'hello this is a review', '2024-05-06 04:25:03', 1),
+(4, 'akhatiwada@gmail.com', 'I rented a Mercedes and it stopped working mid road.', '2024-05-14 03:48:12', 1);
 
 -- --------------------------------------------------------
 
@@ -158,7 +226,29 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `FullName`, `EmailId`, `Password`, `ContactNo`, `LicenseNo`, `dob`, `Address`, `City`, `Country`, `RegDate`, `UpdationDate`) VALUES
-(1, 'Mandip Raut', 'r@gmail.com', 'man@1234', '9861366140', '1234567890', NULL, NULL, NULL, NULL, '2024-04-01 08:19:17', '2024-04-01 08:24:03');
+(1, 'Mandip Raut', 'r@gmail.com', 'pass', '9861366140', '1234567890', '', 'Kapan', '', 'Nepal', '2024-04-01 08:19:17', '2024-05-04 14:38:51'),
+(2, 'Luna Parajuli', 'lunapara09@gmail.com', 'lunaaa@09', '9862653428', '3427645376', NULL, NULL, NULL, NULL, '2024-04-22 05:54:41', NULL),
+(3, 'Ridima Tuladhar', 'ridima@gmail.com', 'lunaa0903', '9812345677', '6785532167', NULL, NULL, NULL, NULL, '2024-05-06 04:04:47', NULL),
+(4, 'L__una@ /paraju*li', 'luna@gmail.com', 'lunaa@09', '9862653428', '4521765980', NULL, NULL, NULL, NULL, '2024-05-13 04:09:11', NULL),
+(5, 'Luna Parajuli', 'lunaa@gmail.com', 'hiluna@09', '9862653428', '2354312087', NULL, NULL, NULL, NULL, '2024-05-13 04:18:35', '2024-05-13 04:43:42'),
+(6, 'Mandipp Raut', 'mandipp@gmail.com', 'mandip00', 'abscdfrtji', '1234567890', NULL, NULL, NULL, NULL, '2024-05-13 05:07:48', NULL),
+(7, 'Mandipp Raut', 'mandipp@gmail.com', 'aaaaaaaa', '9812345677', '9876534265', NULL, NULL, NULL, NULL, '2024-05-13 05:16:05', NULL),
+(8, 'Mandipp Raut', 'mandipp@gmail.com', 'mandip@09', '9812345677', '4521765980', NULL, NULL, NULL, NULL, '2024-05-13 05:29:13', NULL),
+(9, 'Mandipp Raut', 'mandipp@gmail.com', 'mandip@09', '9812345677', '4521765980', NULL, NULL, NULL, NULL, '2024-05-13 05:37:55', NULL),
+(10, 'Aayush', 'akhatiwada@gmail.com', 'mandipraut', '9801031828', '4521765981', '07/09/2003', '', 'kathmandu', 'Nepal', '2024-05-14 03:36:35', '2024-05-14 03:37:30'),
+(11, 'Mandipp @@@', 'mandipppppp@gmail.com', 'password', '9812345677', '4521765980', NULL, NULL, NULL, NULL, '2024-05-14 04:48:45', NULL),
+(12, 'Mandip@ Raut', 'mandippppp@gmail.com', 'password', '9812345677', '4521765980', NULL, NULL, NULL, NULL, '2024-05-14 04:53:20', NULL),
+(13, 'Someone', 'ss@gmail.com', 'password', '9812345677', '4521765980', NULL, NULL, NULL, NULL, '2024-05-14 04:55:06', NULL),
+(14, 'Someone', 'ss@gmail.com', 'password', '9812345677', '4521765980', NULL, NULL, NULL, NULL, '2024-05-14 04:55:33', NULL),
+(15, 'Milan', 'mil@gmail.com', 'password', '9812345677', '6785532167', NULL, NULL, NULL, NULL, '2024-05-14 04:56:12', NULL),
+(16, 'helo', 'mandipp@gmail.com', 'password', '9812345677', '4521765980', NULL, NULL, NULL, NULL, '2024-05-14 05:04:00', NULL),
+(17, 'helo', 'mandipp@gmail.com', 'password', '9812345677', '4521765980', NULL, NULL, NULL, NULL, '2024-05-14 05:05:49', NULL),
+(18, 'helo', 'mandipp@gmail.com', 'password', '9812345677', '4521765980', NULL, NULL, NULL, NULL, '2024-05-14 05:08:18', NULL),
+(19, 'helo', 'mandipp@gmail.com', 'password', '9812345678', '4521765980', NULL, NULL, NULL, NULL, '2024-05-14 05:09:10', NULL),
+(20, 'helo', 'mandipp@gmail.com', 'password', '9812345678', '4521765980', NULL, NULL, NULL, NULL, '2024-05-14 05:09:51', NULL),
+(21, 'helo', 'mandipppppppp@gmail.com', 'password', '9812345678', '4521765980', NULL, NULL, NULL, NULL, '2024-05-14 05:10:19', NULL),
+(22, 'NABD@HGMAM', 'hellp@gmail.com', 'PASSWORD', '9812345678', '4521765980', NULL, NULL, NULL, NULL, '2024-05-14 15:10:19', NULL),
+(23, 'Mahendra Bahubali', 'bahu@gmail.com', 'Password@123', '9812345678', '4521765980', NULL, NULL, NULL, NULL, '2024-05-15 00:56:22', NULL);
 
 -- --------------------------------------------------------
 
@@ -195,6 +285,14 @@ CREATE TABLE `vehicles` (
   `RegDate` timestamp NOT NULL DEFAULT current_timestamp(),
   `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Dumping data for table `vehicles`
+--
+
+INSERT INTO `vehicles` (`id`, `VehiclesTitle`, `VehiclesBrand`, `VehiclesOverview`, `PricePerDay`, `FuelType`, `ModelYear`, `SeatingCapacity`, `Vimage1`, `Vimage2`, `Vimage3`, `Vimage4`, `Vimage5`, `AirConditioner`, `PowerDoorLocks`, `AntiLockBrakingSystem`, `BrakeAssist`, `PowerSteering`, `DriverAirbag`, `PassengerAirbag`, `PowerWindows`, `CDPlayer`, `CentralLocking`, `CrashSensor`, `LeatherSeats`, `RegDate`, `UpdationDate`) VALUES
+(1, 'aaa', 1, 'aaa', 12, 'Petrol', 2005, 4, 'car.jpg', 'car.jpg', 'car.jpg', 'car.jpg', '', NULL, 1, 1, NULL, NULL, 1, NULL, NULL, NULL, 1, 1, NULL, '2024-05-02 14:37:36', '2024-05-04 15:13:13'),
+(2, 'Nano', 2, 'Nice car for bekar people.', 10, 'Diesel', 2005, 4, 'car.jpg', 'car.jpg', 'car.jpg', 'car.jpg', 'car.jpg', 1, 1, 1, NULL, NULL, NULL, NULL, 1, NULL, 1, 1, 1, '2024-05-14 14:53:17', NULL);
 
 --
 -- Indexes for dumped tables
@@ -268,61 +366,61 @@ ALTER TABLE `vehicles`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `brands`
 --
 ALTER TABLE `brands`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `contactusinfo`
 --
 ALTER TABLE `contactusinfo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `contactusquery`
 --
 ALTER TABLE `contactusquery`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `pages`
 --
 ALTER TABLE `pages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `subscribers`
 --
 ALTER TABLE `subscribers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `testimonial`
 --
 ALTER TABLE `testimonial`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `vehicles`
 --
 ALTER TABLE `vehicles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
