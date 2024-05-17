@@ -7,7 +7,7 @@
         <li><a href="postVehicle.php"><i class="fa fa-sitemap"></i> Vehicles | Post a Vehicle</a></li>
         <li><a href="manageVehicle.php"><i class="fa fa-sitemap"></i> Vehicles | Manage Vehicles</a></li>
         <li><a href="managebooking.php"><i class="fa fa-users"></i> Manage Booking</a></li>
-        <li><a href="manageReviews.php"><i class="fa fa-table"></i> Manage Testimonials</a></li>
+        <li><a href="manageReviews.php"><i class="fa fa-table"></i> Manage Reviews</a></li>
         <li><a href="manageContact.php"><i class="fa fa-desktop"></i> Manage Contact Us</a></li>
         <li><a href="users.php"><i class="fa fa-users"></i> Reg Users</a></li>
         <li><a href="managePage.php"><i class="fa fa-files-o"></i> Manage Pages</a></li>
