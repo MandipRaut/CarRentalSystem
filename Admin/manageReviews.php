@@ -17,16 +17,16 @@ $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query-> bindParam(':eid',$eid, PDO::PARAM_STR);
 $query -> execute();
 
-$msg="Testimonial Successfully Inacrive";
+$msg="Testimonial Successfully Inactive";
 }
 
 
 if(isset($_REQUEST['aeid']))
 	{
 $aeid=intval($_GET['aeid']);
-$status=1;
+$status="1";
 
-$sql = "UPDATE tbltestimonial SET status=:status WHERE  id=:aeid";
+$sql = "UPDATE testimonial SET status=:status WHERE  id=:aeid";
 $query = $dbh->prepare($sql);
 $query -> bindParam(':status',$status, PDO::PARAM_STR);
 $query-> bindParam(':aeid',$aeid, PDO::PARAM_STR);
